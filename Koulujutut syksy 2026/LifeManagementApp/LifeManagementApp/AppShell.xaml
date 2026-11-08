@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:LifeManagementApp.Views"
+       x:Class="LifeManagementApp.AppShell"
+       Title="LifeManagementApp">
+    <TabBar>
+        <ShellContent Title="Etusivu" ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+        <ShellContent Title="Tehtävät" ContentTemplate="{DataTemplate views:TodoListPage}" Route="TodoListPage" />
+    </TabBar>
+</Shell>

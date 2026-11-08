@@ -1,0 +1,9 @@
+# Visual Studio / .NET tiedostot
+.vs/
+bin/
+obj/
+*.user
+*.suo
+project.lock.json
+project.fragment.lock.json
+artifacts/

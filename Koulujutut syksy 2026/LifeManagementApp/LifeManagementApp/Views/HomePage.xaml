@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LifeManagementApp.ViewModels"
+             xmlns:models="clr-namespace:LifeManagementApp.Models"
+             x:Class="LifeManagementApp.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Title="Etusivu">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+            <Label Text="{Binding ErrorMessage}" TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+
+            <Label Text="Sää nyt" FontSize="22" FontAttributes="Bold" />
+            <VerticalStackLayout IsVisible="{Binding HasWeather}">
+                <Label Text="{Binding Temperature, StringFormat='Lämpötila: {0:F1} °C'}" FontSize="18" />
+                <Label Text="{Binding WindSpeed, StringFormat='Tuuli: {0:F1} m/s'}" FontSize="18" />
+            </VerticalStackLayout>
+
+            <Border BackgroundColor="#1E90FF" Padding="12" IsVisible="{Binding IsKiteWeather}">
+                <Label Text="🪁 Kitesurf-keli!" TextColor="White" FontSize="24"
+                       FontAttributes="Bold" HorizontalOptions="Center" />
+            </Border>
+
+            <Label Text="3 tärkeintä tehtävää" FontSize="22" FontAttributes="Bold" />
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopTodos}" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:TodoItem">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Title}" FontSize="18" />
+                            <Label FontSize="13" TextColor="Gray"
+                                   Text="{Binding Priority, StringFormat='Prioriteetti {0}'}" />
+                            <Label FontSize="13" TextColor="Gray"
+                                   Text="{Binding DueDate, StringFormat='Eräpäivä {0:dd.MM.yyyy}'}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Button Text="Päivitä" Command="{Binding LoadCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

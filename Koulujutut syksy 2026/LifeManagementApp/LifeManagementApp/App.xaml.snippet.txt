@@ -1,0 +1,3 @@
+Lisää App.xaml:n <ResourceDictionary>-elementtiin (ja xmlns:conv="clr-namespace:LifeManagementApp.Converters" juureen):
+
+<conv:StringNotEmptyConverter x:Key="StringNotEmpty" />

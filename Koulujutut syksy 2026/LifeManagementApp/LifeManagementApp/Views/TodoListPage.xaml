@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LifeManagementApp.ViewModels"
+             xmlns:models="clr-namespace:LifeManagementApp.Models"
+             xmlns:conv="clr-namespace:LifeManagementApp.Converters"
+             x:Class="LifeManagementApp.Views.TodoListPage"
+             x:DataType="vm:TodoListViewModel"
+             Title="Tehtävät">
+    <ContentPage.Resources>
+        <conv:IsDoneToDecorationsConverter x:Key="IsDoneToDecorations" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="10">
+        <Button Grid.Row="0" Text="+ Uusi tehtävä" Command="{Binding GoToAddCommand}" />
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="8">
+            <Button Grid.Column="0" Text="Prioriteetti" Command="{Binding SortByPriorityCommand}" />
+            <Button Grid.Column="1" Text="Eräpäivä" Command="{Binding SortByDueDateCommand}" />
+        </Grid>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TodoItem">
+                    <Grid ColumnDefinitions="*,Auto,Auto" Padding="0,8" ColumnSpacing="6">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="{Binding Title}" FontSize="18"
+                                   TextDecorations="{Binding IsDone, Converter={StaticResource IsDoneToDecorations}}" />
+                            <Label FontSize="13" TextColor="Gray">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="Prioriteetti {0} · {1:dd.MM.yyyy}">
+                                        <Binding Path="Priority" />
+                                        <Binding Path="DueDate" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="✓"
+                                Command="{Binding ToggleDoneCommand, Source={RelativeSource AncestorType={x:Type vm:TodoListViewModel}}}"
+                                CommandParameter="{Binding .}" />
+                        <Button Grid.Column="2" Text="🗑"
+                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:TodoListViewModel}}}"
+                                CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
